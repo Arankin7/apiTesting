@@ -1,21 +1,34 @@
+// tasteDive info
 const apiKEY = '435539-AnthonyR-SF1MTWL2';
-
 const similarAPI = 'https://tastedive.com/api/similar?q=';
 
+// Seat Geek 
+// Client ID MjY1NDM2MjJ8MTY0OTg3MDg4Ni41Mzg2OTM0
+// Secret? dde8a5132043b2b9bb1c3b0b0b5dc13870531280835149307fc9824a7b132267 
+// https://api.seatgeek.com/2/events?client_id=MYCLIENTID&client_secret=MYCLIENTSECRET
 
+const seatGeekID = "MjY1NDM2MjJ8MTY0OTg3MDg4Ni41Mzg2OTM0";
+const seatGeekSec = "dde8a5132043b2b9bb1c3b0b0b5dc13870531280835149307fc9824a7b132267";
+const seatGeekAuth = "&client_id=" + seatGeekID + "&client_secret=" + seatGeekSec;
+const seatGeekEventUrl = "https://api.seatgeek.com/2/venues?postal_code=";
+
+
+// lyric info
 const apiURL = "https://api.lyrics.ovh/v1/"
 var artistEl = document.querySelector("#artistSearch");
 var songEl = document.querySelector("#songSearch");
 var searchEl = document.querySelector("#searchBtn");
 var lyricContainerEl = document.querySelector("#lyricContainer");
+var zipCodeEl = document.querySelector("#zip");
 
 searchEl.addEventListener("click", search);
 
 function search(){
-    console.log("Click");
+    // console.log("Click");
 
     var artist = artistEl.value.trim();
     var song = songEl.value.trim();
+    var zipCode = zipCodeEl.value.trim();
 
 fetch(apiURL + artist + "/" + song, {
     method:"GET",
@@ -23,7 +36,8 @@ fetch(apiURL + artist + "/" + song, {
     .then(response => response.json().then(function(data){
         displayStuff(data)
     }))
-    // .then(data => console.log(data));
+
+    // Trying to use tasteDive to get similar artists
 
     // fetch(similarAPI  + artist, {
     //     mode: 'no-cors',
@@ -34,17 +48,34 @@ fetch(apiURL + artist + "/" + song, {
     // })
         
     //     .then(response => response.json())
-    //     .then(response => console.log(response));    
+    //     .then(response => console.log(response));   
+    
+    // SeatGeek fetch
 
-    // displayStuff(data);
+    fetch(seatGeekEventUrl +  zipCode + seatGeekAuth)
+        .then(response => response.json().then(function(data){
+            displayVenue(data)
+        }))
+
+
+        // .then(data => console.log(data.venues[1].name))
 };
+var displayVenue = function(venues){
 
-var displayStuff = function(lyrics){
-    console.log(lyrics);
+    console.log(venues.venues[1].name);
+    var eventEl = document.createElement("span");
+    eventEl.textContent = venues.venues[1].name;
+    lyricContainerEl.appendChild(eventEl);
 
+}
+
+
+var displayStuff = function(lyrics, venues){
+    // console.log(lyrics);
     var lyricEl = document.createElement("span");
     lyricEl.textContent = lyrics.lyrics;
     lyricContainerEl.appendChild(lyricEl);
+  
 }
 
 

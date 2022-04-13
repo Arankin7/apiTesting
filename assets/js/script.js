@@ -1,7 +1,3 @@
-// tasteDive info
-const apiKEY = '435539-AnthonyR-SF1MTWL2';
-const similarAPI = 'https://tastedive.com/api/similar?q=';
-
 // Seat Geek 
 // Client ID MjY1NDM2MjJ8MTY0OTg3MDg4Ni41Mzg2OTM0
 // Secret? dde8a5132043b2b9bb1c3b0b0b5dc13870531280835149307fc9824a7b132267 
@@ -37,19 +33,7 @@ fetch(apiURL + artist + "/" + song, {
         displayStuff(data)
     }))
 
-    // Trying to use tasteDive to get similar artists
-
-    // fetch(similarAPI  + artist, {
-    //     mode: 'no-cors',
-    //     method:"GET",
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }
-    // })
-        
-    //     .then(response => response.json())
-    //     .then(response => console.log(response));   
-    
+   
     // SeatGeek fetch
 
     fetch(seatGeekEventUrl +  zipCode + seatGeekAuth)
